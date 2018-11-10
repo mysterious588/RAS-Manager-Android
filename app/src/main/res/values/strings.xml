@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RAS</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">RAS</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_view_item">View An Item</string>
+    <string name="title_activity_profile">profile</string>
+    <string name="title_activity_schedules">schedules</string>
+    <string name="search">Search</string>
+    <string name="refresh">Refresh</string>
+    <string name="title_activity_users">users</string>
+    <string name="title_activity_projects">projects</string>
+</resources>

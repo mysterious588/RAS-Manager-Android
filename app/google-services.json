@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "474772198715",
+    "firebase_url": "https://ras-manager.firebaseio.com",
+    "project_id": "ras-manager",
+    "storage_bucket": "ras-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474772198715:android:0d2c24747af7d4a9",
+        "android_client_info": {
+          "package_name": "com.components.ras.ras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474772198715-s0h477v4b2i57sekudjmdh9vi2uafgou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk34LjpuDdThAM-dqqylI326rnNbVCzuw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
