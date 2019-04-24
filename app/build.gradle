@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.github.Shashank02051997:FancyToast-Android:0.1.3'

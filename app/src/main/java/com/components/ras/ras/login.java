@@ -37,7 +37,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken("474772198715-s0h477v4b2i57sekudjmdh9vi2uafgou.apps.googleusercontent.com").requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -143,6 +143,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -157,7 +158,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                             ref2.setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
                         }
                         DatabaseReference ref3 = mrootRef.child("users").child(mAuth.getCurrentUser().getDisplayName()).child("phone number");
-                            ref3.setValue(mAuth.getCurrentUser().getPhoneNumber());
+                        ref3.setValue(mAuth.getCurrentUser().getPhoneNumber());
                     }
                     Intent intent = new Intent(login.this, MainActivity.class);
                     finish();

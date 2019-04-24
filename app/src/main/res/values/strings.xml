@@ -2,6 +2,7 @@
     <string name="app_name">RAS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="nav_header_title">RAS</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -13,4 +14,7 @@
     <string name="refresh">Refresh</string>
     <string name="title_activity_users">users</string>
     <string name="title_activity_projects">projects</string>
+    <string name="title_activity_ras_budget">ras_budget</string>
+    <string name="title_activity_budget_details">budget_details</string>
+    <string name="title_activity_budget">budget</string>
 </resources>

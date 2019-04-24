@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+xmlns:tools="http://schemas.android.com/tools"
+tools:showIn="navigation_view">
 
-    <group>
-        <item
-            android:id="@+id/home"
-            android:icon="@drawable/baseline_home_black_18dp"
-            android:title="Home"
-            android:actionLayout="@layout/activity_main"
-            />
+<group>
+    <item
+        android:id="@+id/home"
+        android:actionLayout="@layout/activity_main"
+        android:icon="@drawable/baseline_home_black_18dp"
+        android:title="Home" />
 
-        <item
-            android:id="@+id/chat"
-            android:icon="@drawable/baseline_chat_bubble_outline_black_18dp"
-            android:title="chat" />
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/baseline_chat_bubble_outline_black_18dp"
+        android:title="chat" />
+    <item
+        android:id="@+id/budget"
+        android:icon="@drawable/baseline_money_black_18dp"
+        android:title="budget" />
+    <item
+        android:id="@+id/team_members"
+        android:icon="@drawable/outline_account_box_black_18dp"
+        android:title="team members" />
+    <item
+        android:id="@+id/signOut"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Sign Out" />
 
-        <item
-            android:id="@+id/team_members"
-            android:icon="@drawable/outline_account_box_black_18dp"
-            android:title="team members" />
-        <item
-            android:id="@+id/signOut"
-            android:icon="@android:drawable/ic_menu_close_clear_cancel"
-            android:title="Sign Out" />
-    </group>
+</group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/baseline_share_black_18dp"
-                android:title="Share" />
-            <item
-                android:icon="@drawable/github"
-                android:id="@+id/github"
-                android:title="RAS's github"
-></item>
-        </menu>
-    </item>
+<item android:title="Communicate">
+    <menu>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/baseline_share_black_18dp"
+            android:title="Share" />
+        <item
+            android:id="@+id/github"
+            android:icon="@drawable/github"
+            android:title="RAS's github"></item>
+    </menu>
+</item>
 
 </menu>

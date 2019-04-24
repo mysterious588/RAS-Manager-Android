@@ -254,6 +254,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_share) {
             FancyToast.makeText(this, "WHAT A SPY!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
         }
+        else if(id == R.id.budget) {
+            startActivity(new Intent(MainActivity.this,budget.class));
+        }
         else if (id == R.id.github){
             String url = "https://github.com/RAS-ZSC";
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -270,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Dialog f = new Dialog();
         f.show(getSupportFragmentManager(), "example dialog");
     }
-
     private void loadImageFromUri(String uri) {
         Picasso.get().load(uri).into(image);
     }
@@ -289,5 +291,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         list.setEnabled(true);
         super.onResume();
     }
-
 }

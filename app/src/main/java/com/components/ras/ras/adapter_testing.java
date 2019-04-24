@@ -23,8 +23,8 @@ public class adapter_testing extends RecyclerView.Adapter<adapter_testing.ViewHo
     private static final String TAG = "RecyclerViewAdapter";
 
     //vars
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mNames ;
+    private ArrayList<String> mImageUrls ;
     private Context mContext;
 
     public adapter_testing(Context context, ArrayList<String> names, ArrayList<String> imageUrls) {
