@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.ViewItemAdapter;
+import com.components.ras.ras.models.UserInfo;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,33 +41,22 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class view_item extends AppCompatActivity {
-    String itemsname;
-    String imgid;
-    String description;
-    String datasheet;
-    int quantity;
-    TextView name;
-    adapter_testing adapter;
+public class ViewItemActivity extends AppCompatActivity {
+    String itemName, imageId, description, datasheet, ownerImage, ownerName;
+    int quantity, amount_requested, max, total, quantityOwnedByUser;
+    TextView name, textView, descriptionText, datasheetText;
     ImageView img;
     Button request;
     SeekBar seekBar;
-    int amount_requested;
-    TextView textView;
-    TextView descriptionTxt;
-    TextView datasheetText;
     FirebaseAuth mAuth;
-    String ownerImage;
-    DatabaseReference mRootRef;
-    DatabaseReference ownersRef;
-    int quantityOwnedByUser;
-    int max;
+    DatabaseReference mRootRef, ownersRef;
     boolean exists = false;
-    int total;
-    String ownerName;
-    ArrayList<user_info> user = new ArrayList<>();
+    ArrayList<UserInfo> user = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+
+    ViewItemAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +65,11 @@ public class view_item extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final String user_name = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName();
         final String user_image = mAuth.getCurrentUser().getPhotoUrl().toString();
-        ownersRef = FirebaseDatabase.getInstance().getReference().child("users");
-        mRootRef = FirebaseDatabase.getInstance().getReference().child("users").child(Objects.requireNonNull(mAuth.getCurrentUser().getDisplayName()));
+        ownersRef = FirebaseDatabase.getInstance().getReference().child("UsersActivity");
+        mRootRef = FirebaseDatabase.getInstance().getReference().child("UsersActivity").child(Objects.requireNonNull(mAuth.getCurrentUser().getDisplayName()));
         ownerImage = Objects.requireNonNull(mAuth.getCurrentUser().getPhotoUrl()).toString();
-        user.add(new user_info(user_name, ownerImage));
-        descriptionTxt = findViewById(R.id.mDescription);
+        user.add(new UserInfo(user_name, ownerImage));
+        descriptionText = findViewById(R.id.mDescription);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         name = findViewById(R.id.name);
@@ -87,19 +79,19 @@ public class view_item extends AppCompatActivity {
         textView = findViewById(R.id.amount_requested);
         seekBar = findViewById(R.id.seekbar);
         img = findViewById(R.id.itemViewImage);
-        itemsname = getIntent().getStringExtra("text");
-        getOwners(itemsname);
-        exists(itemsname);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
+        itemName = getIntent().getStringExtra("text");
+        getOwners(itemName);
+        exists(itemName);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("UsersActivity");
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot f : dataSnapshot.getChildren()) {
-                    Log.e("f", f.getValue().toString());
+                    Log.e("f", Objects.requireNonNull(f.getValue()).toString());
                     for (DataSnapshot s : f.child("possessions").getChildren()) {
-                        Log.e("s", s.child("Quantity").getValue() + "\t" + itemsname);
-                        if (s.getKey().equals(itemsname)) {
+                        Log.e("s", s.child("Quantity").getValue() + "\t" + itemName);
+                        if (Objects.equals(s.getKey(), itemName)) {
                             quantityOwnedByUser = Integer.parseInt(Objects.requireNonNull(s.child("Quantity").getValue()).toString());
                             Log.e("the value", Integer.toString(quantityOwnedByUser));
                             max -= quantityOwnedByUser;
@@ -117,8 +109,8 @@ public class view_item extends AppCompatActivity {
 
         if (getIntent().getStringExtra("description") != null) {
             description = getIntent().getStringExtra("description");
-            descriptionTxt.setText(description);
-            descriptionTxt.setVisibility(View.VISIBLE);
+            descriptionText.setText(description);
+            descriptionText.setVisibility(View.VISIBLE);
         }
         if (getIntent().getStringExtra("datasheet") != null) {
             datasheet = getIntent().getStringExtra("datasheet");
@@ -133,9 +125,9 @@ public class view_item extends AppCompatActivity {
             });
         }
 
-        imgid = getIntent().getStringExtra("image");
-        name.setText(itemsname);
-        Picasso.get().load(imgid).into(img);
+        imageId = getIntent().getStringExtra("image");
+        name.setText(itemName);
+        Picasso.get().load(imageId).into(img);
         seekBar.setMax(max);
         textView.setText("0" + " /" + max);
         Animation fadeIn = new AlphaAnimation(0, 1);
@@ -145,7 +137,7 @@ public class view_item extends AppCompatActivity {
 
         AnimationSet animation = new AnimationSet(false); //change to false
         animation.addAnimation(fadeIn);
-        descriptionTxt.setAnimation(animation);
+        descriptionText.setAnimation(animation);
         request = findViewById(R.id.requestItem);
         seekBar = findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -171,7 +163,7 @@ public class view_item extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean("firstTimeView", false)) {
             TapTargetView.showFor(this,                 // `this` is an Activity
-                    TapTarget.forView(findViewById(R.id.requestItem), "You can request an item here", "By requesting, you add it into your account's database")
+                    TapTarget.forView(findViewById(R.id.requestItem), "You can request an Item here", "By requesting, you add it into your account's database")
                             // All options below are optional
                             .outerCircleColor(R.color.colorPrimaryDark)      // Specify a color for the outer circle
                             .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
@@ -202,16 +194,16 @@ public class view_item extends AppCompatActivity {
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                exists(itemsname);
-                //TODO make this button clickable only when the current user doesn't have the item
+                exists(itemName);
+                //TODO make this button clickable only when the current user doesn't have the Item
                 if (amount_requested == 0)
-                    FancyToast.makeText(view_item.this, "sure you can have as much zeros as you want :)", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                    FancyToast.makeText(ViewItemActivity.this, "sure you can have as much zeros as you want :)", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
                 else if (exists) {
-                    FancyToast.makeText(view_item.this, "You already requested this item", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                    FancyToast.makeText(ViewItemActivity.this, "You already requested this Item", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                 } else {
-                    mRootRef.child("possessions").child(itemsname).child("image id").setValue(imgid);
-                    mRootRef.child("possessions").child(itemsname).child("state").setValue("pending");
-                    mRootRef.child("possessions").child(itemsname).child("Quantity").setValue(amount_requested).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    mRootRef.child("possessions").child(itemName).child("image id").setValue(imageId);
+                    mRootRef.child("possessions").child(itemName).child("state").setValue("pending");
+                    mRootRef.child("possessions").child(itemName).child("Quantity").setValue(amount_requested).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             max = max - amount_requested;
@@ -219,12 +211,12 @@ public class view_item extends AppCompatActivity {
                             mNames.add(user_name);
                             mImageUrls.add(user_image);
                             initRecyclerView();
-                            FancyToast.makeText(view_item.this, "Success", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                            FancyToast.makeText(ViewItemActivity.this, "Success", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            FancyToast.makeText(view_item.this, "Failed", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                            FancyToast.makeText(ViewItemActivity.this, "Failed", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                         }
                     });
                 }
@@ -250,11 +242,11 @@ public class view_item extends AppCompatActivity {
     }
 
     private void getOwners(final String item) {
-        //child ("users")
+        //child ("UsersActivity")
         ownersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot f : dataSnapshot.getChildren()) {// loop users >> Ahmed Khaled ... etc
+                for (DataSnapshot f : dataSnapshot.getChildren()) {// loop UsersActivity >> Ahmed Khaled ... etc
                     Log.e("the owner", f.getKey());
                     if (f.child("possessions").child(item).exists()) {
                         Log.e(f.getKey(), f.child("images").getValue(String.class));
@@ -278,7 +270,7 @@ public class view_item extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new adapter_testing(this, mNames, mImageUrls);
+        adapter = new ViewItemAdapter(this, mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
     }
 

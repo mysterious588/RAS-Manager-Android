@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".view_item"
+    tools:context=".activities.ViewItemActivity"
     tools:showIn="@layout/activity_view_item">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".view_item"
+        tools:context=".activities.ViewItemActivity"
         tools:showIn="@layout/activity_view_item">
 
 

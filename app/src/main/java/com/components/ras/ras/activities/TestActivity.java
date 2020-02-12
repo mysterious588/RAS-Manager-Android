@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,11 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.ViewItemAdapter;
+
 import java.util.ArrayList;
 
-public class test extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "TestActivity";
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -66,7 +69,7 @@ public class test extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        adapter_testing adapter = new adapter_testing(this, mNames, mImageUrls);
+        ViewItemAdapter adapter = new ViewItemAdapter(this, mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
     }
 }

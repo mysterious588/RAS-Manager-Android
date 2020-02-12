@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.components.ras.ras.R;
 
 import java.util.ArrayList;
 
@@ -18,16 +19,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by User on 2/12/2018.
  */
 
-public class adapter_testing extends RecyclerView.Adapter<adapter_testing.ViewHolder> {
+public class ViewItemAdapter extends RecyclerView.Adapter<ViewItemAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
     //vars
-    private ArrayList<String> mNames ;
-    private ArrayList<String> mImageUrls ;
+    private ArrayList<String> mNames;
+    private ArrayList<String> mImageUrls;
     private Context mContext;
 
-    public adapter_testing(Context context, ArrayList<String> names, ArrayList<String> imageUrls) {
+    public ViewItemAdapter(Context context, ArrayList<String> names, ArrayList<String> imageUrls) {
         mNames = names;
         mImageUrls = imageUrls;
         mContext = context;
@@ -62,12 +63,12 @@ public class adapter_testing extends RecyclerView.Adapter<adapter_testing.ViewHo
         return mImageUrls.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView image;
         TextView name;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageOfOwner);
             name = itemView.findViewById(R.id.quantityOwnedByUser);

@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.adapters;
 
 import android.app.Activity;
 import android.os.Build;
@@ -10,16 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.models.UserInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class users_adapter extends ArrayAdapter<user_info> {
+public class users_adapter extends ArrayAdapter<UserInfo> {
     private final Activity context;
-    private ArrayList<user_info> itemname;
+    private ArrayList<UserInfo> itemname;
     private static final int CONSTANT = 567894;
 
-    public users_adapter(Activity context, ArrayList<user_info> itemname) {
+    public users_adapter(Activity context, ArrayList<UserInfo> itemname) {
         super(context, R.layout.users_list, itemname);
         this.context = context;
         this.itemname = itemname;
@@ -43,7 +45,7 @@ public class users_adapter extends ArrayAdapter<user_info> {
         } else {
             holder = (Holder) view.getTag();
         }
-        user_info currentUser = getItem(position);
+        UserInfo currentUser = getItem(position);
 
         Picasso.get().load(currentUser.getImage()).into(holder.image);
         holder.itemName.setText(currentUser.getName());

@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.possessions_adapter;
+import com.components.ras.ras.models.Item;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,10 +27,10 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 
-public class profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     String name;
-    ArrayList<item> arrayList;
-    DatabaseReference mrootRef = FirebaseDatabase.getInstance().getReference().child("users");
+    ArrayList<Item> arrayList;
+    DatabaseReference mrootRef = FirebaseDatabase.getInstance().getReference().child("UsersActivity");
     possessions_adapter adapter;
     TextView itemNameText, quantityText;
     String image;
@@ -58,7 +61,7 @@ public class profile extends AppCompatActivity {
                         String Mname = f.getKey();
                         String quantity = f.child("Quantity").getValue().toString();
                         image = f.child("image id").getValue().toString();
-                        arrayList.add(new item(Mname, image, quantity,state));
+                        arrayList.add(new Item(Mname, image, quantity, state));
                     }
                     ProgressBar progressBar = findViewById(R.id.spin_kit);
                     progressBar.setVisibility(View.GONE);
@@ -67,7 +70,7 @@ public class profile extends AppCompatActivity {
                 if (arrayList.isEmpty()) {
                     ProgressBar progressBar = findViewById(R.id.spin_kit);
                     progressBar.setVisibility(View.GONE);
-                    arrayList.add(new item("Empty ", "https://firebasestorage.googleapis.com/v0/b/ras-manager.appspot.com/o/listView%20icons%2Fras.png?alt=media&token=a36b1aa1-386b-4cf4-b9ed-cb1c89881e99", "",""));
+                    arrayList.add(new Item("Empty ", "https://firebasestorage.googleapis.com/v0/b/ras-manager.appspot.com/o/listView%20icons%2Fras.png?alt=media&token=a36b1aa1-386b-4cf4-b9ed-cb1c89881e99", "", ""));
                     adapter.notifyDataSetChanged();
                     list.setEnabled(false);
                 }
@@ -81,17 +84,17 @@ public class profile extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                Log.e("the name is",name);
+                Log.e("the name is", name);
                 if (name.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
+                            switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     mrootRef.child(name).child("possessions").child(arrayList.get(i).getName()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            FancyToast.makeText(profile.this,"removed",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
+                                            FancyToast.makeText(ProfileActivity.this, "removed", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                                             arrayList.remove(i);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -106,9 +109,8 @@ public class profile extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(profile.this);
-                    builder.setMessage("return this item?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setMessage("return this Item?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
 
                 }
             }

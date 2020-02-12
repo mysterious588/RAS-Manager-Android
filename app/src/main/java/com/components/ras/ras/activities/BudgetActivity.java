@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.budget_adapter;
+import com.components.ras.ras.models.Income;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,11 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class budget extends AppCompatActivity {
+public class BudgetActivity extends AppCompatActivity {
 
     ListView budgetList;
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("budget");
-    ArrayList<income_model> arrayList;
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("BudgetActivity");
+    ArrayList<Income> arrayList;
     budget_adapter income_modelArrayAdapter;
     TextView totalSpentTxt, budgetTxt, totalAvailable;
     DatabaseReference budRef;
@@ -33,17 +36,17 @@ public class budget extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         arrayList = new ArrayList<>();
-        income_modelArrayAdapter = new budget_adapter(budget.this, arrayList);
+        income_modelArrayAdapter = new budget_adapter(BudgetActivity.this, arrayList);
         budgetList.setAdapter(income_modelArrayAdapter);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot s : dataSnapshot.child("income sources").getChildren()) {
-                    income_model model = new income_model(s.getKey(), s.getValue(Double.class), true);
+                    Income model = new Income(s.getKey(), s.getValue(Double.class), true);
                     arrayList.add(model);
                 }
                 for (DataSnapshot s : dataSnapshot.child("spent on").getChildren()) {
-                    income_model model = new income_model(s.getKey(), s.getValue(Double.class), false);
+                    Income model = new Income(s.getKey(), s.getValue(Double.class), false);
                     arrayList.add(model);
                 }
                 income_modelArrayAdapter.notifyDataSetChanged();
@@ -54,7 +57,7 @@ public class budget extends AppCompatActivity {
 
             }
         });
-        budRef = FirebaseDatabase.getInstance().getReference().child("budget");
+        budRef = FirebaseDatabase.getInstance().getReference().child("BudgetActivity");
         budgetTxt = findViewById(R.id.totalIncomeTxtView);
         totalSpentTxt = findViewById(R.id.TotalSpentTxtView);
         totalAvailable = findViewById(R.id.totalAvailable);

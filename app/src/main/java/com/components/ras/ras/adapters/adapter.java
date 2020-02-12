@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.adapters;
 
 import android.app.Activity;
 import android.os.Build;
@@ -10,20 +10,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.models.Item;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class adapter extends ArrayAdapter<item> {
-    private ArrayList<item> constArrayList;
+public class adapter extends ArrayAdapter<Item> {
+    private ArrayList<Item> constArrayList;
     private final Activity context;
-    private ArrayList<item> itemname;
+    private ArrayList<Item> itemname;
     private static final int CONSTANT = 999990;
     private static final int CONSTANT2 = 500000;
     int x = 0;
 
-    public adapter(Activity context, ArrayList<item> itemname, ArrayList<item> constArrayList) {
+    public adapter(Activity context, ArrayList<Item> itemname, ArrayList<Item> constArrayList) {
         super(context, R.layout.list, itemname);
         this.context = context;
         this.itemname = itemname;
@@ -50,7 +52,7 @@ public class adapter extends ArrayAdapter<item> {
         } else {
             holder = (Holder) view.getTag();
         }
-        item currentWord = getItem(position);
+        Item currentWord = getItem(position);
 
         Picasso.get().load(currentWord.getImageId()).into(holder.image);
         holder.itemName.setText(currentWord.getName());
@@ -73,7 +75,7 @@ public class adapter extends ArrayAdapter<item> {
         if (charText.length() == 0) {
             itemname.addAll(constArrayList);
         } else {
-            for (item model : constArrayList) {
+            for (Item model : constArrayList) {
                 if (model.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                     itemname.add(model);
                 }

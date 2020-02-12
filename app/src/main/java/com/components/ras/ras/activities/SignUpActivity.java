@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.components.ras.ras.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
-public class sign_up extends AppCompatActivity implements View.OnClickListener {
+import java.util.Objects;
+
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     ProgressBar progressBar;
     EditText editTextEmail, editTextPassword;
@@ -28,8 +31,8 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editTextEmail =  findViewById(R.id.editTextEmail);
-        editTextPassword =  findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -74,14 +77,14 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     finish();
-                    startActivity(new Intent(sign_up.this, MainActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                 } else {
 
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                         Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -99,7 +102,7 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.textViewLogin:
                 finish();
-                startActivity(new Intent(this, login.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
         }

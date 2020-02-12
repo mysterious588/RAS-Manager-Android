@@ -1,10 +1,10 @@
-package com.components.ras.ras;
+package com.components.ras.ras.models;
 
-public class user_info {
-    String name;
-    String image;
+public class UserInfo {
+    private String name;
+    private String image;
 
-    public user_info(String name, String image) {
+    public UserInfo(String name, String image) {
         this.name = name;
         this.image = image;
     }

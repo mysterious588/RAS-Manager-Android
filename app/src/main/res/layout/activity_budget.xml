@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".budget">
+    tools:context=".activities.BudgetActivity">
 
     <include layout="@layout/content_budget" />
 

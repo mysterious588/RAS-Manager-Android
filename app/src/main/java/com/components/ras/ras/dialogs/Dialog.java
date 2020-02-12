@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.dialogs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,11 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.components.ras.ras.R;
+
 public class Dialog extends AppCompatDialogFragment {
     private EditText editText;
     private dialogListener listener;
     private EditText editText2;
-    private Button addImg;
     String result;
 
     @Override
@@ -28,7 +29,7 @@ public class Dialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.add_item, null);
         editText = view.findViewById(R.id.item_name);
         editText2 = view.findViewById(R.id.quantity);
-        addImg = view.findViewById(R.id.addImage);
+        Button addImg = view.findViewById(R.id.addImage);
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +53,7 @@ public class Dialog extends AppCompatDialogFragment {
 
                 } else if (item_name.isEmpty()) {
                     dismiss();
-                    Toast.makeText(getActivity(), "Please specify the item's name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please specify the Item's name", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "مكسل تكتب كام واحد يعني؟", Toast.LENGTH_SHORT).show();
                 }

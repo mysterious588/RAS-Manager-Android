@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -10,17 +10,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.models.Item;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class possessions_adapter extends ArrayAdapter<item> {
+public class possessions_adapter extends ArrayAdapter<Item> {
     private final Activity context;
-    private ArrayList<item> itemname;
+    private ArrayList<Item> itemname;
     private static final int CONSTANT = 555770;
     int x = 0;
 
-    public possessions_adapter(Activity context, ArrayList<item> itemname) {
+    public possessions_adapter(Activity context, ArrayList<Item> itemname) {
         super(context, R.layout.list, itemname);
         this.context = context;
         this.itemname = itemname;
@@ -46,7 +48,7 @@ public class possessions_adapter extends ArrayAdapter<item> {
         } else {
             holder = (Holder) view.getTag();
         }
-        item currentWord = getItem(position);
+        Item currentWord = getItem(position);
 
         Picasso.get().load(currentWord.getImageId()).into(holder.image);
         holder.itemName.setText(currentWord.getName());

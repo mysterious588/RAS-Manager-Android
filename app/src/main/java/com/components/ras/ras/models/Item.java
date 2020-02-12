@@ -1,13 +1,9 @@
-package com.components.ras.ras;
+package com.components.ras.ras.models;
 
-public class item {
-    String name;
-    String imageId;
-    String quantity;
-    String description;
-    String datasheet;
-    int position;
-    boolean isConfirmed;
+public class Item {
+    private String name, imageId, quantity, description, datasheet;
+    private int position;
+    private boolean isConfirmed;
 
     public boolean isConfirmed() {
         return isConfirmed;
@@ -17,23 +13,26 @@ public class item {
         isConfirmed = confirmed;
     }
 
-    public item(String name, String imageId, String quantity) {
+    public Item(String name, String imageId, String quantity) {
         this.name = name;
         this.imageId = imageId;
         this.quantity = quantity;
     }
-    public item(String name, String imageId, String quantity,Boolean isConfirmed) {
+
+    public Item(String name, String imageId, String quantity, Boolean isConfirmed) {
         this.name = name;
         this.imageId = imageId;
         this.quantity = quantity;
     }
-    public item(String name, String imageId, String quantity, String description) {
+
+    public Item(String name, String imageId, String quantity, String description) {
         this.name = name;
         this.imageId = imageId;
         this.quantity = quantity;
         this.description = description;
     }
-    public item(String name, String imageId, String quantity, String description,String datasheet) {
+
+    public Item(String name, String imageId, String quantity, String description, String datasheet) {
         this.name = name;
         this.imageId = imageId;
         this.quantity = quantity;

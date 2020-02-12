@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.users_adapter;
+import com.components.ras.ras.models.UserInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,39 +24,40 @@ import com.google.firebase.database.ValueEventListener;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class users extends AppCompatActivity {
-    ArrayList<user_info> userNames;
-    ListView list ;
+public class UsersActivity extends AppCompatActivity {
+    ArrayList<UserInfo> userNames;
+    ListView list;
     DatabaseReference mrootRef = FirebaseDatabase.getInstance().getReference();
     users_adapter adapter;
     FirebaseAuth mAuth;
     private static final int CONSTANT = 567894;
     String nameFromAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
         mAuth = FirebaseAuth.getInstance();
         list = findViewById(R.id.usersList);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         userNames = new ArrayList<>();
-        adapter = new users_adapter(this,userNames);
+        adapter = new users_adapter(this, userNames);
         list.setAdapter(adapter);
-        nameFromAuth = mAuth.getCurrentUser().getDisplayName();
+        nameFromAuth = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName();
         final ProgressBar progressBar = findViewById(R.id.mprogressbar);
-        mrootRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        mrootRef.child("UsersActivity").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot s : dataSnapshot.getChildren()){
+                for (DataSnapshot s : dataSnapshot.getChildren()) {
                     String name = s.getKey();
-                    String image = s.child("images").getValue().toString();
-                    if (name.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                        userNames.add(0,new user_info(name, image));
-                    }
-                    else {
-                        userNames.add(new user_info(name, image));
+                    String image = Objects.requireNonNull(s.child("images").getValue()).toString();
+                    if (Objects.equals(name, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName())) {
+                        userNames.add(0, new UserInfo(name, image));
+                    } else {
+                        userNames.add(new UserInfo(name, image));
 
                     }
                 }
@@ -63,17 +67,17 @@ public class users extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                FancyToast.makeText(users.this,databaseError.getMessage(),FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                FancyToast.makeText(UsersActivity.this, databaseError.getMessage(), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false);
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(users.this,profile.class);
-                intent.putExtra("name",userNames.get(i).getName());
+                Intent intent = new Intent(UsersActivity.this, ProfileActivity.class);
+                intent.putExtra("name", userNames.get(i).getName());
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(users.this, Pair.create(findViewById(i + CONSTANT), "user_name"));
-                startActivity(intent,options.toBundle());
+                        makeSceneTransitionAnimation(UsersActivity.this, Pair.create(findViewById(i + CONSTANT), "user_name"));
+                startActivity(intent, options.toBundle());
             }
 
         });

@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +26,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.adapters.adapter;
+import com.components.ras.ras.dialogs.Dialog;
+import com.components.ras.ras.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DatabaseReference mrootRef = FirebaseDatabase.getInstance().getReference();
     String description;
     ImageView image;
-    ArrayList<item> item_names;
-    ArrayList<item> quantity;
-    adapter adapter;
+    ArrayList<Item> item_names;
+    ArrayList<Item> quantity;
+    com.components.ras.ras.adapters.adapter adapter;
     int i;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         item_names = new ArrayList<>();
-        ArrayList<item> arrayList = new ArrayList<>();
+        ArrayList<Item> arrayList = new ArrayList<>();
         final ProgressBar progressBar = findViewById(R.id.mprogressbar);
         adapter = new adapter(this, item_names, arrayList);
         list = findViewById(R.id.list);
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         if (user == null) {
-            Intent intent = new Intent(MainActivity.this, login.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
@@ -103,20 +107,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             String value = Objects.requireNonNull(postSnapshot.child("Quantity").getValue()).toString();
                             String imageUri = Objects.requireNonNull(postSnapshot.child("image id").getValue()).toString();
                             String item_name = postSnapshot.getKey();
-                            item_names.add(new item(item_name, imageUri, value));
+                            item_names.add(new Item(item_name, imageUri, value));
                         } else if (postSnapshot.child("datasheet").exists()) {
                             String value = Objects.requireNonNull(postSnapshot.child("Quantity").getValue()).toString();
                             String imageUri = Objects.requireNonNull(postSnapshot.child("image id").getValue()).toString();
                             String description = Objects.requireNonNull(postSnapshot.child("description").getValue()).toString();
                             String item_name = postSnapshot.getKey();
                             String datasheet = Objects.requireNonNull(postSnapshot.child("datasheet").getValue()).toString();
-                            item_names.add(new item(item_name, imageUri, value, description, datasheet));
+                            item_names.add(new Item(item_name, imageUri, value, description, datasheet));
                         } else if (!postSnapshot.child("datasheet").exists()) {
                             String value = Objects.requireNonNull(postSnapshot.child("Quantity").getValue()).toString();
                             String imageUri = Objects.requireNonNull(postSnapshot.child("image id").getValue()).toString();
                             String description = Objects.requireNonNull(postSnapshot.child("description").getValue()).toString();
                             String item_name = postSnapshot.getKey();
-                            item_names.add(new item(item_name, imageUri, value, description));
+                            item_names.add(new Item(item_name, imageUri, value, description));
                         }
                     }
 
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, view_item.class);
+                Intent intent = new Intent(MainActivity.this, ViewItemActivity.class);
                 intent.putExtra("quantity", item_names.get(position).getQuantity());
                 intent.putExtra("image", item_names.get(position).getImageId());
                 intent.putExtra("text", item_names.get(position).getName());
@@ -217,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar Item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -237,27 +241,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle navigation view Item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.home) {
         } else if (id == R.id.signOut) {
             FirebaseAuth.getInstance().signOut();
             finish();
-            Intent intent = new Intent(MainActivity.this, login.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.team_members) {
-            Intent intent = new Intent(MainActivity.this, users.class);
+            Intent intent = new Intent(MainActivity.this, UsersActivity.class);
             startActivity(intent);
         } else if (id == R.id.chat) {
             FancyToast.makeText(this, "Developer of this app had a headache when he started making this section", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
         } else if (id == R.id.nav_share) {
             FancyToast.makeText(this, "WHAT A SPY!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
-        }
-        else if(id == R.id.budget) {
-            startActivity(new Intent(MainActivity.this,budget.class));
-        }
-        else if (id == R.id.github){
+        } else if (id == R.id.budget) {
+            startActivity(new Intent(MainActivity.this, BudgetActivity.class));
+        } else if (id == R.id.github) {
             String url = "https://github.com/RAS-ZSC";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
@@ -273,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Dialog f = new Dialog();
         f.show(getSupportFragmentManager(), "example dialog");
     }
+
     private void loadImageFromUri(String uri) {
         Picasso.get().load(uri).into(image);
     }

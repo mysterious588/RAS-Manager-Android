@@ -1,4 +1,4 @@
-package com.components.ras.ras;
+package com.components.ras.ras.adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.components.ras.ras.R;
+import com.components.ras.ras.models.UserInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,9 +18,9 @@ import java.util.ArrayList;
 public class item_owners_adapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<user_info> images;
+    private ArrayList<UserInfo> images;
 
-    public item_owners_adapter(Context context, ArrayList<user_info> images) {
+    public item_owners_adapter(Context context, ArrayList<UserInfo> images) {
         this.context = context;
         this.images = images;
     }

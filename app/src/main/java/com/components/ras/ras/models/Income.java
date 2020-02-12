@@ -1,6 +1,6 @@
-package com.components.ras.ras;
+package com.components.ras.ras.models;
 
-public class income_model  {
+public class Income {
     private String eventName;
     private double outcome;
     private Boolean isWin;
@@ -9,7 +9,7 @@ public class income_model  {
         return isWin;
     }
 
-    public income_model(String eventName, double outcome, Boolean isWin) {
+    public Income(String eventName, double outcome, Boolean isWin) {
         this.eventName = eventName;
         this.outcome = outcome;
         this.isWin = isWin;
